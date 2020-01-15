@@ -1,0 +1,20 @@
+# permissions to do viewer maps.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: map-viewer-role
+rules:
+- apiGroups:
+  - forward.techsquad.rocks
+  resources:
+  - maps
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - forward.techsquad.rocks
+  resources:
+  - maps/status
+  verbs:
+  - get

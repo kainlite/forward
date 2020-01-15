@@ -1,0 +1,26 @@
+# permissions to do edit maps.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: map-editor-role
+rules:
+- apiGroups:
+  - forward.techsquad.rocks
+  resources:
+  - maps
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - forward.techsquad.rocks
+  resources:
+  - maps/status
+  verbs:
+  - get
+  - patch
+  - update

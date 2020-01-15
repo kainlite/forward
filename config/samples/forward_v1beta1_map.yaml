@@ -1,0 +1,9 @@
+apiVersion: forward.techsquad.rocks/v1beta1
+kind: Map
+metadata:
+  name: mapsample
+  namespace: default
+spec:
+  host: 10.244.0.8
+  port: 8000
+  protocol: tcp

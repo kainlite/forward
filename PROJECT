@@ -1,0 +1,7 @@
+domain: techsquad.rocks
+repo: github.com/kainlite/forward
+resources:
+- group: forward
+  kind: Map
+  version: v1beta1
+version: "2"
