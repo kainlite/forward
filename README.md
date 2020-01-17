@@ -78,9 +78,11 @@ Then type something and hit enter, it should show up in the first nc.
 
 ## TODO
 * Add/fix tests.
+* Add proper error if the protocol doesn't match the supported ones.
 * Review RBAC permissions, we need minimal permissions anyway.
 * Add health check with the values of the remote endpoint and port.
 * Add possibility to use a different port to listen.
 * Another possible method in the future will be with SAML2 or OIDC to provide an authentication method, but this is looking way further into the future.
+* Turn all of this bullet points into github issues.
 
 <a href="https://www.buymeacoffee.com/NDx5OFh" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-green.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
