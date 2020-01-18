@@ -2,7 +2,9 @@
 
 This project aims to ease and do two things, connect to private resources safely and being simple enough like any other kubernetes resource, it relies in socat to do so (maybe at some point it will not), basically it will spin up a pod with socat and some given params to create the connection for you, at this time only the port-fordward method has been written for tcp and udp (udp needs more testing), tested and works. It uses the same port for the Pod that the remote connection uses.
 
-This will probably be a post in my blog at some point [TechSquad.Rocks](https://techsquad.rocks/blog/).
+There is a blog page describing how to get here, [check it out](https://techsquad.rocks/blog/cloud_native_applications_with_kubebuilder_and_kind_aka_kubernetes_operators/).
+
+Also if you are interested how I got the idea to make this operator check this [github issue](https://github.com/kubernetes/kubernetes/issues/72597).
 
 ### Installation
 To install this operator in your cluster you need to do the following:
