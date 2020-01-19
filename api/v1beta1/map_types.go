@@ -38,6 +38,9 @@ type MapSpec struct {
 
 	// Host
 	Host string `json:"host,omitempty"`
+
+	// LivenessProbe
+	LivenessProbe bool `json:"liveness_probe"`
 }
 
 // MapStatus defines the observed state of Map

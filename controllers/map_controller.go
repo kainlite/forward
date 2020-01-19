@@ -63,6 +63,14 @@ func newPodForCR(cr *forwardv1beta1.Map) *corev1.Pod {
 		command = fmt.Sprintf("socat -V")
 	}
 
+	var livenessCommand string
+	if cr.Spec.LivenessProbe == true {
+		livenessCommand = fmt.Sprintf("nc -v -n -z %s %s", cr.Spec.Host, strconv.Itoa(cr.Spec.Port))
+	} else {
+		livenessCommand = fmt.Sprintf("echo")
+	}
+
+	// Learn more at: https://godoc.org/k8s.io/api/core/v1
 	return &corev1.Pod{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      "forward-" + cr.Name + "-pod",
@@ -75,6 +83,13 @@ func newPodForCR(cr *forwardv1beta1.Map) *corev1.Pod {
 					Name:    "map",
 					Image:   "alpine/socat",
 					Command: strings.Split(command, " "),
+					LivenessProbe: &corev1.Probe{
+						Handler: corev1.Handler{
+							Exec: &corev1.ExecAction{
+								Command: strings.Split(livenessCommand, " "),
+							},
+						},
+					},
 				},
 			},
 			RestartPolicy: corev1.RestartPolicyOnFailure,
@@ -110,6 +125,8 @@ func (r *MapReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		reqLogger.Info("Phase: PENDING")
 		reqLogger.Info("Waiting to forward", "Host", instance.Spec.Host, "Port", instance.Spec.Port)
 		instance.Status.Phase = forwardv1beta1.PhaseRunning
+		// If we ever get here, just requeue the request
+		return reconcile.Result{}, err
 	case forwardv1beta1.PhaseRunning:
 		reqLogger.Info("Phase: RUNNING")
 		pod := newPodForCR(instance)

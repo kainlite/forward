@@ -37,12 +37,17 @@ spec:
             host:
               description: Host
               type: string
+            liveness_probe:
+              description: LivenessProbe
+              type: boolean
             port:
               description: Port
               type: integer
             protocol:
               description: TCP/UDP protocol
               type: string
+          required:
+          - liveness_probe
           type: object
         status:
           description: MapStatus defines the observed state of Map
