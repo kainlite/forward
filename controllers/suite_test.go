@@ -23,7 +23,7 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/kainlite/forward/controllers/apis"
+	apis "github.com/kainlite/forward/api"
 	. "github.com/onsi/ginkgo"
 	"github.com/onsi/gomega"
 	. "github.com/onsi/gomega"
