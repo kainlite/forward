@@ -27,14 +27,57 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/controller"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
+	"sigs.k8s.io/controller-runtime/pkg/handler"
+	"sigs.k8s.io/controller-runtime/pkg/manager"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
+	"sigs.k8s.io/controller-runtime/pkg/source"
 
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	forwardv1beta1 "github.com/kainlite/forward/api/v1beta1"
 )
+
+// Add creates a new At Controller and adds it to the Manager with default RBAC. The Manager will set fields on the Controller
+// and Start it when the Manager is Started.
+func Add(mgr manager.Manager) error {
+	return add(mgr, newReconciler(mgr))
+}
+
+// newReconciler returns a new reconcile.Reconciler
+func newReconciler(mgr manager.Manager) reconcile.Reconciler {
+	return &MapReconciler{Client: mgr.GetClient(), Scheme: mgr.GetScheme()}
+}
+
+// add adds a new Controller to mgr with r as the reconcile.Reconciler
+func add(mgr manager.Manager, r reconcile.Reconciler) error {
+	// Create a new controller
+	c, err := controller.New("forward-controller", mgr, controller.Options{Reconciler: r})
+	if err != nil {
+		return err
+	}
+
+	// Watch for changes to Map
+	err = c.Watch(&source.Kind{Type: &forwardv1beta1.Map{}}, &handler.EnqueueRequestForObject{})
+	if err != nil {
+		return err
+	}
+
+	// Watch pods created by At
+	err = c.Watch(&source.Kind{Type: &corev1.Pod{}}, &handler.EnqueueRequestForOwner{
+		IsController: true,
+		OwnerType:    &forwardv1beta1.Map{},
+	})
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+var _ reconcile.Reconciler = &MapReconciler{}
 
 // +kubebuilder:rbac:groups=maps.forward.techsquad.rocks,resources=pods,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=map.forward.techsquad.rocks,resources=pods,verbs=get;list;watch;create;update;patch;delete
@@ -64,7 +107,7 @@ func newPodForCR(cr *forwardv1beta1.Map) *corev1.Pod {
 	}
 
 	var livenessCommand string
-	if cr.Spec.LivenessProbe == true {
+	if cr.Spec.LivenessProbe {
 		livenessCommand = fmt.Sprintf("nc -v -n -z %s %s", cr.Spec.Host, strconv.Itoa(cr.Spec.Port))
 	} else {
 		livenessCommand = fmt.Sprintf("echo")
