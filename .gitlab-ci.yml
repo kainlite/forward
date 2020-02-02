@@ -45,7 +45,7 @@ test_build:
     - curl -L https://download.docker.com/linux/static/stable/x86_64/docker-19.03.5.tgz > /tmp/docker.tar.gz
     - tar -xzvf /tmp/docker.tar.gz -C /tmp/
     - chmod +x /tmp/docker/* && cp /tmp/docker/docker* /usr/local/bin && rm -rf /tmp/docker
-    - docker login -u "kainlite" -p "$DOCKERHUB_TOKEN"
+    - docker login -u "kainlite" -p "${DOCKERHUB_TOKEN}"
     - docker pull "$IMAGE_NAME:${CI_COMMIT_SHA}" || true
     - cd "${GOPATH}/src/${PKG_PATH}"
   cache:
