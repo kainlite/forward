@@ -28,7 +28,7 @@ test_build:
     - mv kustomize /usr/local/bin
     - curl -L https://github.com/kubernetes-sigs/kind/releases/download/v0.7.0/kind-linux-amd64 > /usr/local/bin/kind
     - chmod +x /usr/local/bin/kind /usr/local/bin/kustomize
-    - make test
+    - cd ${BUILD_DIR} && make test
   cache:
     key: "$CI_COMMIT_REF_SLUG"
     paths:
