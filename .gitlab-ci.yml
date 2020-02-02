@@ -18,11 +18,11 @@ before_script:
 test_build:
   stage: test
   script:
-    - curl -L https://github.com/kubernetes-sigs/kubebuilder/releases/download/v2.2.0/kubebuilder_2.2.0_linux_amd64.tar.gz > tmp/kubebuilder.tar.gz
+    - curl -L https://github.com/kubernetes-sigs/kubebuilder/releases/download/v2.2.0/kubebuilder_2.2.0_linux_amd64.tar.gz > /tmp/kubebuilder.tar.gz
     - tar -zxvf /tmp/kubebuilder.tar.gz
     - mv kubebuilder_2.2.0_linux_amd64 /usr/local/kubebuilder
     - export PATH=$PATH:/usr/local/kubebuilder/bin
-    - curl -L https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv3.5.4/kustomize_v3.5.4_linux_amd64.tar.gz > tmp/kustomize.tar.gz
+    - curl -L https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv3.5.4/kustomize_v3.5.4_linux_amd64.tar.gz > /tmp/kustomize.tar.gz
     - tar -zxvf /tmp/kustomize.tar.gz
     - mv /tmp/kustomize /usr/local/bin
     - curl -L https://github.com/kubernetes-sigs/kind/releases/download/v0.7.0/kind-linux-amd64 > /usr/local/bin/kind
@@ -40,7 +40,7 @@ test_build:
   services:
     - docker:dind
   before_script:
-    - curl -L https://download.docker.com/linux/static/stable/x86_64/docker-19.03.5.tgz > tmp/docker.tar.gz
+    - curl -L https://download.docker.com/linux/static/stable/x86_64/docker-19.03.5.tgz > /tmp/docker.tar.gz
     - tar -xzvf /tmp/docker.tar.gz -C /tmp/
     - chmod +x /tmp/docker/* && cp /tmp/docker/docker* /usr/local/bin && rm -rf /tmp/docker
     - docker login -u "kainlite" -p "$DOCKERHUB_TOKEN"
