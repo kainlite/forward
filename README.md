@@ -12,7 +12,7 @@ Also if you are interested how I got the idea to make this operator check this [
 ### Installation
 To install this operator in your cluster you need to do the following:
 ```
-make deploy IMG=kainlite/forward:0.0.1
+make deploy IMG=kainlite/forward:0.0.2
 ```
 
 ### Why forward
