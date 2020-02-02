@@ -41,6 +41,7 @@ test_build:
   services:
     - docker:dind
   before_script:
+    - apk update && apk add curl make musl-dev gcc build-base
     - curl -L https://download.docker.com/linux/static/stable/x86_64/docker-19.03.5.tgz > /tmp/docker.tar.gz
     - tar -xzvf /tmp/docker.tar.gz -C /tmp/
     - chmod +x /tmp/docker/* && cp /tmp/docker/docker* /usr/local/bin && rm -rf /tmp/docker
