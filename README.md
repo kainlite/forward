@@ -1,5 +1,8 @@
 ### Forward Operator
 
+[![pipeline status](https://gitlab.com/kainlite/forward/badges/master/pipeline.svg)](https://gitlab.com/kainlite/forward/commits/master)
+[![coverage report](https://gitlab.com/kainlite/forward/badges/master/coverage.svg)](https://gitlab.com/kainlite/forward/commits/master)
+
 This project aims to ease and do two things, connect to private resources safely and being simple enough like any other kubernetes resource, it relies in socat to do so (maybe at some point it will not), basically it will spin up a pod with socat and some given params to create the connection for you, at this time only the port-fordward method has been written for tcp and udp (udp needs more testing), tested and works. It uses the same port for the Pod that the remote connection uses.
 
 There is a blog page describing how to get here, [check it out](https://techsquad.rocks/blog/cloud_native_applications_with_kubebuilder_and_kind_aka_kubernetes_operators/).
