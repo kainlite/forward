@@ -21,7 +21,7 @@ test_build:
   script:
     - curl -L https://github.com/kubernetes-sigs/kubebuilder/releases/download/v2.2.0/kubebuilder_2.2.0_linux_amd64.tar.gz > /tmp/kubebuilder.tar.gz
     - tar -zxvf /tmp/kubebuilder.tar.gz
-    - chmod +x kubebuilder_2.2.0_linux_amd64/bin/* && mv kubebuilder_2.2.0_linux_amd64/bin /usr/local/kubebuilder
+    - chmod +x kubebuilder_2.2.0_linux_amd64/bin/* && mkdir -p /usr/local/kubebuilder && mv kubebuilder_2.2.0_linux_amd64/bin/ /usr/local/kubebuilder/
     - export PATH=$PATH:/usr/local/kubebuilder/bin
     - curl -L https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv3.5.4/kustomize_v3.5.4_linux_amd64.tar.gz > /tmp/kustomize.tar.gz
     - tar -zxvf /tmp/kustomize.tar.gz
