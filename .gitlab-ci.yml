@@ -8,6 +8,7 @@ variables:
   PKG_PATH: gitlab.com/kainlite/forward
 
 before_script:
+  - apk update && apk add curl
   - export IMAGE_NAME="kainlite/forward"
   - BUILD_DIR=$(pwd)
   - export GOPATH=${BUILD_DIR}/_build
