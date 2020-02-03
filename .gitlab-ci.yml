@@ -28,7 +28,7 @@ before_script:
   - tar -xzvf /tmp/docker.tar.gz -C /tmp/
   - chmod +x /tmp/docker/* && cp /tmp/docker/docker* /usr/local/bin && rm -rf /tmp/docker
 
-test_build:
+test:
   stage: test
   script:
     - cd ${BUILD_DIR} && make test
@@ -37,24 +37,21 @@ test_build:
     paths:
       - _build/pkg
 
-.docker_build: &docker_build
+build:
+  stage: build
   variables:
     DOCKER_DRIVER: overlay2
     DOCKER_HOST: tcp://docker:2375
   services:
     - docker:dind
   script:
+    - cd ${BUILD_DIR}
     - docker login -u "kainlite" -p "${DOCKERHUB_TOKEN}"
     - docker pull "$IMAGE_NAME:${CI_COMMIT_SHA}" || true
+    - make docker-build docker-push IMG="${IMAGE_NAME}:${CI_COMMIT_SHA}"
+    - docker tag "kainlite/forward:${CI_COMMIT_SHA}" "$IMAGE_NAME:latest"
+    - make docker-push IMG="${IMAGE_NAME}:latest"
   cache:
     key: "$CI_COMMIT_REF_SLUG"
     paths:
       - _build/pkg
-
-build_image_branch:
-  <<: *docker_build
-  stage: build
-  script:
-    - make docker-build docker-push IMG="${IMAGE_NAME}:${CI_COMMIT_SHA}"
-    - docker tag "kainlite/forward:${CI_COMMIT_SHA}" "$IMAGE_NAME:latest"
-    - make docker-push IMG="${IMAGE_NAME}:latest"
