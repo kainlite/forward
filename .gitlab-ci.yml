@@ -47,7 +47,6 @@ test_build:
     - chmod +x /tmp/docker/* && cp /tmp/docker/docker* /usr/local/bin && rm -rf /tmp/docker
     - docker login -u "kainlite" -p "${DOCKERHUB_TOKEN}"
     - docker pull "$IMAGE_NAME:${CI_COMMIT_SHA}" || true
-    - cd "${GOPATH}/src/${PKG_PATH}"
   cache:
     key: "$CI_COMMIT_REF_SLUG"
     paths:
