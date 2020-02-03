@@ -57,6 +57,5 @@ build_image_branch:
   stage: build
   script:
     - make docker-build docker-push IMG="kainlite/forward:${CI_COMMIT_SHA}"
-    - make deploy IMG="kainlite/forward:${CI_COMMIT_SHA}"
     - docker tag "$IMAGE_NAME:latest"
-    - make deploy IMG="kainlite/forward:latest"
+    - make docker-push IMG="kainlite/forward:latest"
