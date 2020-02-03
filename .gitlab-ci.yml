@@ -6,10 +6,10 @@ stages:
 
 variables:
   PKG_PATH: gitlab.com/kainlite/forward
+  IMAGE_NAME: "kainlite/forward"
 
 before_script:
   - apk update && apk add curl make musl-dev gcc build-base
-  - export IMAGE_NAME="kainlite/forward"
   - BUILD_DIR=$(pwd)
   - export GOPATH=${BUILD_DIR}/_build
   - export PATH=${GOPATH}/bin:${PATH}
