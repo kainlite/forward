@@ -12,7 +12,7 @@ Also if you are interested how I got the idea to make this operator check this [
 ### Installation
 To install this operator in your cluster you need to do the following:
 ```
-make deploy IMG=kainlite/forward:0.0.1
+make deploy IMG=kainlite/forward:0.0.2
 ```
 
 ### Why forward
@@ -63,8 +63,8 @@ kubebuilder create api --group forward --version v1beta1 --kind Map
 make install
 make run
 # Build the docker image, push it to the registry and deploy it
-make docker-build docker-push IMG=kainlite/forward:0.0.1
-make deploy IMG=kainlite/forward:0.0.1
+make docker-build docker-push IMG=kainlite/forward:0.0.2
+make deploy IMG=kainlite/forward:0.0.2
 # Uninstall the whole thing from the cluster
 make uninstall
 ```
