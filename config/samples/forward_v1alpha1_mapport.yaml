@@ -1,0 +1,11 @@
+apiVersion: forward.redbeard.team/v1alpha1
+kind: MapPort
+metadata:
+  labels:
+    app.kubernetes.io/name: forward2
+    app.kubernetes.io/managed-by: kustomize
+  name: mapport-sample
+spec:
+  host: 10.244.0.5
+  port: 8000
+  protocol: tcp

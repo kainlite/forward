@@ -1,0 +1,27 @@
+# permissions for end users to edit mapports.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/name: forward2
+    app.kubernetes.io/managed-by: kustomize
+  name: mapport-editor-role
+rules:
+- apiGroups:
+  - forward.redbeard.team
+  resources:
+  - mapports
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - forward.redbeard.team
+  resources:
+  - mapports/status
+  verbs:
+  - get
