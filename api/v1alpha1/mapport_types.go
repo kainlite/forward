@@ -36,6 +36,9 @@ type MapPortSpec struct {
 
 	// Host
 	Host string `json:"host,omitempty"`
+
+	// LivenessProbe
+	LivenessProbe bool `json:"liveness_probe"`
 }
 
 // MapPortStatus defines the observed state of MapPort.

@@ -6,6 +6,7 @@ metadata:
     app.kubernetes.io/managed-by: kustomize
   name: mapport-sample
 spec:
-  host: 10.244.0.5
-  port: 8000
+  host: 104.16.185.241
+  port: 443
   protocol: tcp
+  liveness_probe: true

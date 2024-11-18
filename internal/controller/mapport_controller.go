@@ -79,6 +79,13 @@ func newPodForCR(cr *forwardv1alpha1.MapPort) *corev1.Pod {
 		command = fmt.Sprintf("socat -V")
 	}
 
+	var livenessCommand string
+	if cr.Spec.LivenessProbe {
+		livenessCommand = fmt.Sprintf("nc -v -n -z %s %s", cr.Spec.Host, strconv.Itoa(cr.Spec.Port))
+	} else {
+		livenessCommand = fmt.Sprintf("echo")
+	}
+
 	return &corev1.Pod{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      "forward-" + cr.Name + "-pod",
@@ -91,6 +98,13 @@ func newPodForCR(cr *forwardv1alpha1.MapPort) *corev1.Pod {
 					Name:    "mapport",
 					Image:   "alpine/socat",
 					Command: strings.Split(command, " "),
+					LivenessProbe: &corev1.Probe{
+						ProbeHandler: corev1.ProbeHandler{
+							Exec: &corev1.ExecAction{
+								Command: strings.Split(livenessCommand, " "),
+							},
+						},
+					},
 				},
 			},
 			RestartPolicy: corev1.RestartPolicyOnFailure,
@@ -128,6 +142,9 @@ func (r *MapPortReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ct
 		reqLogger.Info("Phase: PENDING")
 		reqLogger.Info("Waiting to forward", "Host", instance.Spec.Host, "Port", instance.Spec.Port)
 		instance.Status.Phase = forwardv1alpha1.PhaseRunning
+
+		// requeue the request
+		return ctrl.Result{}, err
 	case forwardv1alpha1.PhaseRunning:
 		reqLogger.Info("Phase: RUNNING")
 		pod := newPodForCR(instance)
